@@ -12,7 +12,10 @@ volatile boolean B = 0;
 
 void doEncoderA()
 {
-     B ? conta_impulsi--:  conta_impulsi++;
+     if(B) 
+          conta_impulsi--; //Se B è alto al cambio di A il senso di rotazione è antiorario
+     else
+          conta_impulsi++; //Se B è basso al cambio di A il senso di rotazione è orario
     
 }
 

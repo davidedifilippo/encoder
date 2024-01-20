@@ -10,7 +10,7 @@ volatile int conta_impulsi = 0;
 volatile boolean A = 0;
 volatile boolean B = 0;
 
-void doEncoderA()
+void isrA()
 {
      if(B) 
           conta_impulsi--; //Se B è alto al cambio di A il senso di rotazione è antiorario
@@ -19,7 +19,7 @@ void doEncoderA()
     
 }
 
-void doEncoderB()
+void isrB()
 {
      B = !B; 
 }
@@ -38,9 +38,9 @@ void setup()
   B = (boolean)digitalRead(pin_canaleB); //valore iniziale canale B
 
 
-  attachInterrupt(digitalPinToInterrupt(pin_canaleA), doEncoderA, RISING);
+  attachInterrupt(digitalPinToInterrupt(pin_canaleA), isrA, RISING);
 
-  attachInterrupt(digitalPinToInterrupt(pin_canaleB), doEncoderB, CHANGE); 
+  attachInterrupt(digitalPinToInterrupt(pin_canaleB), isrB, CHANGE); 
 
 }
 

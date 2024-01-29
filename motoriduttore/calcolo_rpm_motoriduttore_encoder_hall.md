@@ -1,4 +1,4 @@
-## Calcolo RPM
+## Calcolo RPM motoriduttore con encoder ad effetto Hall
 
 Spiegazione del calcolo della velocità del motoriduttore in rpm (Rotazioni per minuto) a partire dagli impulsi provenienti dall'encoder calettato sull'albero motore
 
@@ -16,12 +16,12 @@ Dichiariamo le variabili necessarie al calcolo:
 
 Variabili per il conteggio degli impulsi generati in un secondo:
 
-    int Impulsi_iniziali = 0;
+    int  rifImpulsi = 0;
     int deltaImpulsi = 0; 
 
 Variabile per la gestione del tempo:
 
-    long int tempoIniziale = 0;
+    long int rifTemporale = 0;
 
 Inseriamo le due routine da eseguire sui cambi di stato dei segnali provenienti dall'encoder:
 
@@ -60,26 +60,36 @@ Inseriamo le due routine da eseguire sui cambi di stato dei segnali provenienti 
          A = (boolean)digitalRead(pin_canaleA); //valore iniziale canale A
          B = (boolean)digitalRead(pin_canaleB); //valore iniziale canale B
 
-         tempoIniziale = millis(); //memorizza il tempo attuale
+         rifTemporale = millis(); //memorizza il tempo attuale
     }
 
     
 
 ### Fase di loop
 
-Ogni secondo che passa calcolo il numero di impulsi aggiuntivi arrivati dall'encoder che misura no il movimento in un secondo:
+         if(millis()-rif_Temporale>=1000){
 
-          if(millis()-rif_Temporale>=1000){
-                  deltaImpulsi = contaImpulsi-rifImpulsi;      //conta gli impulsi nell'ultimo secondo
-                  rifImpulsi   = contaImpulsi;                 // aggiorno il riferimento di conteggio al valore attuale
-                  rifTemporale = millis(); }                    //aggiorno il tempo di riferimento
+Ogni secondo che passa calcolo il numero di impulsi aggiuntivi arrivati dall'encoder. 
+
+        deltaImpulsi 
+
+rappresenta il numero di impulsi arrivati nell'ultimo secondo, essendo la differenza tra gli impulsi totali e quelli contati fino al secondo precedente:
+
+        deltaImpulsi = contaImpulsi-rifImpulsi;       //conta gli impulsi nell'ultimo secondo
+
+Aggiorno poi i valori del riferimento temporale e del contegggio.
+
+        rifImpulsi   = conta_Impulsi;                 // aggiorno il riferimento di conteggio al valore attuale
+        rifTemporale = millis(); }                    //aggiorno il tempo di riferimento
                   
-deltaImpulsi rappresenta il movimento. Aggiorno poi i valori del riferimento temporale e del contegggio. Ogni 60 impulsi ho un giro del motoriduttore come da prove di lab. Quindi deltaImpulsi/60 è il numero di giri al secondo: 
+ Ogni 60 impulsi ho un giro del motoriduttore come da prove di lab. Quindi deltaImpulsi/60 è il numero di giri al secondo: 
               
-              Serial.print("Giri al minuto: ");  
-              Serial.println (deltaImpulsi/60 *60); 
+         Serial.print("Giri al minuto motoriduttore: ");  
+         Serial.println (deltaImpulsi/60 *60); 
 
-Introdurre un delay di 100 ms
+Il motore invece compie 20 giri per ogni giro del motoriduttore essendo 1:20 il rapporto di riduzione.
+
+        Introdurre un delay di 100 ms
 
 
               

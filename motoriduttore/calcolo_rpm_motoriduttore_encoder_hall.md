@@ -82,12 +82,12 @@ Aggiorno poi i valori del riferimento temporale e del contegggio.
         rifImpulsi   = conta_Impulsi;                 // aggiorno il riferimento di conteggio al valore attuale
         rifTemporale = millis(); }                    //aggiorno il tempo di riferimento
                   
- Ogni 60 impulsi ho un giro del motoriduttore come da prove di lab. Quindi deltaImpulsi/60 è il numero di giri al secondo: 
+ Ogni 57 impulsi ho un giro del motoriduttore come da prove di lab. Quindi deltaImpulsi/57 è il numero di giri al secondo: 
               
          Serial.print("Giri al minuto motoriduttore: ");  
-         Serial.println (deltaImpulsi/60 *60); 
+         Serial.println (deltaImpulsi/57 *60); 
 
-Il motore invece compie 20 giri per ogni giro del motoriduttore essendo 1:20 il rapporto di riduzione.
+Il motore invece compie 19 giri per ogni giro del motoriduttore essendo 1:19 il rapporto di riduzione.
 
         Introdurre un delay di 100 ms
 

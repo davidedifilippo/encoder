@@ -9,7 +9,7 @@ Piedini di connessione dellìencoder ad effetto Hall a due canali
 
 Dichiariamo le variabili necessarie al calcolo:
 
-    volatile int conta_impulsi = 0;
+    volatile int contaImpulsi = 0;
 
     volatile boolean A = 0;
     volatile boolean B = 0;
@@ -79,7 +79,7 @@ rappresenta il numero di impulsi arrivati nell'ultimo secondo, essendo la differ
 
 Aggiorno poi i valori del riferimento temporale e del contegggio.
 
-        rifImpulsi   = conta_Impulsi;                 // aggiorno il riferimento di conteggio al valore attuale
+        rifImpulsi   = contaImpulsi;                 // aggiorno il riferimento di conteggio al valore attuale
         rifTemporale = millis(); }                    //aggiorno il tempo di riferimento
                   
  Ogni 57 impulsi ho un giro del motoriduttore come da prove di lab. Quindi deltaImpulsi/57 è il numero di giri al secondo: 

@@ -1,4 +1,4 @@
-## Calcolo RPM motoriduttore con encoder ad effetto Hall
+## Calcolo RPM motoriduttore con encoder meccanico
 
 Spiegazione del calcolo della velocità del motoriduttore in rpm (Rotazioni per minuto) a partire dagli impulsi provenienti dall'encoder calettato sull'albero motore
 
@@ -27,17 +27,13 @@ Inseriamo le due routine da eseguire sui cambi di stato dei segnali provenienti 
 
     void isrA()
     {
-     if(B) 
+     if(digitalRead(pin_canaleB)) 
           conta_impulsi--; //Se B è alto al cambio di A il senso di rotazione è antiorario e diminuisco il numero di impulsi contati 
      else
           conta_impulsi++; //Se B è basso al cambio di A il senso di rotazione è orario e aumento il numero di impulsi contati in avanti
     
     }
 
-    void isrB()
-    {
-         B = !B; //Tiene conto dello stato alto o basso di B aggiornandolo ad ogni transizione (alto-basso o basso-alto)
-    }
 
 ### Fase di Setup
 
@@ -47,18 +43,12 @@ Inseriamo le due routine da eseguire sui cambi di stato dei segnali provenienti 
     
          //turn on pullup resistor - le uscite dell'encoder sono open-collector
          
-         pinMode(pin_canaleA, INPUT_PULLUP);
-         pinMode(pin_canaleB, INPUT_PULLUP);
+         pinMode(pin_canaleA, INPUT);
+         pinMode(pin_canaleB, INPUT);
   
-        //Abilito gli interrupt sui pin 2 e 3 e dichiaro le funzioni da richiamare e quando richiamarle
+        //Abilito l'interrupt sui pin 2  e dichiaro la funzione da richiamare e quando richiamarle
         
-         attachInterrupt(digitalPinToInterrupt(pin_canaleA), isrA, RISING);
-         attachInterrupt(digitalPinToInterrupt(pin_canaleB), isrB, CHANGE); 
-
-         //Salvo i livelli iniziali dei due segnali (alto o basso che siano) sui piedini 2 e 3
-         
-         A = (boolean)digitalRead(pin_canaleA); //valore iniziale canale A
-         B = (boolean)digitalRead(pin_canaleB); //valore iniziale canale B
+         attachInterrupt(digitalPinToInterrupt(pin_canaleA), isrA, RISING); 
 
          rifTemporale = millis(); //memorizza il tempo attuale
     }
@@ -82,14 +72,11 @@ Aggiorno poi i valori del riferimento temporale e del contegggio.
         rifImpulsi   = contaImpulsi;                 // aggiorno il riferimento di conteggio al valore attuale
         rifTemporale = millis(); }                    //aggiorno il tempo di riferimento
                   
- Ogni 57 impulsi ho un giro del motoriduttore come da prove di lab. Quindi deltaImpulsi/57 è il numero di giri al secondo: 
+ Ogni 20 impulsi ho un giro del motoriduttore come da prove di lab. Quindi deltaImpulsi/20 è il numero di giri al secondo: 
               
-         Serial.print("Giri al minuto motoriduttore: ");  
-         Serial.println (deltaImpulsi/57 *60); 
+         Serial.print("Giri al secondo: ");  
+         Serial.println (deltaImpulsi/20); 
 
-Il motore invece compie 19 giri per ogni giro del motoriduttore essendo 1:19 il rapporto di riduzione.
-
-        Introdurre un delay di 100 ms
 
 
               

@@ -1,4 +1,4 @@
-## Calcolo RPM motoriduttore con encoder meccanico
+## Calcolo velocità di rotazione con encoder meccanico
 
 Spiegazione del calcolo della velocità del motoriduttore in rpm (Rotazioni per minuto) a partire dagli impulsi provenienti dall'encoder calettato sull'albero motore
 
